@@ -11,32 +11,13 @@ import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
-import { media } from 'services/styles'
 
-import { getCompleteProfileAnnouncement } from '../selectors'
-import { BannerButton, CloseLink } from '../styles'
+import ANNOUNCEMENTS from '../constants'
+import { BannerButton, CloseLink, IconWrapper, Wrapper } from '../styles'
 import { getData } from './selectors'
 
 const MAX_STEPS = 3
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  padding: 20px;
-
-  ${media.atLeastLaptop`
-    height: 96px;
-    padding: 0 20px;
-  `}
-  ${media.mobile`
-    padding: 12px;
-    flex-direction: column;
-  `}
-`
 const Row = styled.div`
   display: flex;
   align-items: center;
@@ -49,17 +30,6 @@ const Column = styled.div`
   flex-direction: column;
   align-items: start;
   flex: 1;
-`
-
-const PendingIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-  margin-right: 20px;
 `
 
 const CompleteYourProfile = ({
@@ -91,18 +61,16 @@ const CompleteYourProfile = ({
     })
   }, [modalActions])
 
-  const completeAnnouncement = getCompleteProfileAnnouncement()
-
   return (
     <Wrapper>
       <Row>
-        <PendingIconWrapper>
+        <IconWrapper>
           <CircularProgressBar percentage={percentage} strokeWidth={12}>
             <Text size='16px' color='blue600' weight={600}>
               {`${currentStep}/${MAX_STEPS}`}
             </Text>
           </CircularProgressBar>
-        </PendingIconWrapper>
+        </IconWrapper>
       </Row>
       <CentralRow>
         <Column>
@@ -132,7 +100,7 @@ const CompleteYourProfile = ({
 
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.COMPLETE_PROFILE)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>
